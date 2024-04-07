@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  goapp:
+    container_name: goapp
+    image: goapp:1.0.0
+    build:
+      context: ./backend
+      dockerfile: go.dockerfile
+    environment:
+      DATABASE_URL: 'postgres://b3soft:Code4me!@db:5432/b3soft?sslmode=disable'
+    ports:
+      - '8080:8080'
+    depends_on:
+      - db
+  db:
+    container_name: db
+    image: postgres:13
+    environment:
+      POSTGRES_USER: b3soft
+      POSTGRES_PASSWORD: Code4me!
+      POSTGRES_DB: b3soft
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata: {}
+
